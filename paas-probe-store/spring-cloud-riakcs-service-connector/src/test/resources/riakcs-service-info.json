@@ -1,0 +1,19 @@
+  {
+  "p-riakcs": [    
+   {               
+    "credentials": {
+     "access_key_id": "YOOG5RBFUWRLX8IPVRF9",
+     "secret_access_key": "iY3Uwxxp-qa9wIsbpED3UeLkMDTGIqUqtMlNWw==",
+     "uri": "https://YOOG5RBFUWRLX8IPVRF9:iY3Uwxxp-qa9wIsbpED3UeLkMDTGIqUqtMlNWw%3D%3D@p-riakcs.redacted-domain/service-instance-936c8641-2611-4371-bd71-e1ce9d0cde5b"               
+    },                                                                                       
+    "label": "p-riakcs",                                                                     
+    "name": "riakcs-s3-bucket",                                                          
+    "plan": "developer",                                                                     
+    "tags": [                                                                                
+     "riak-cs",                                                                              
+     "s3"                                                                                    
+    ]                                                                                        
+   } 
+   
+   ]
+}                                                                                           

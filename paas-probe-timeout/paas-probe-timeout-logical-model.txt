@@ -1,0 +1,69 @@
+====
+    Copyright (C) 2015 Orange
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+====
+
+PAAS PROBE TIMOUT
+
+APPLICATION
+LABEL			Probe timeout
+CODE BASICAT		timeout
+DESCRIPTION		paas probe for web timeout assertions
+RELEASE VERSION		1.0
+
+EAR FRONT END:
+LABEL			front-end
+GROUP ID		com.francetelecom.clara.cloud
+ARTIFACT ID 		paas-probe-timeout-ear
+VERSION			1.0.19-SNAPSHOT
+MINIMUM MEMORY 	128
+
+FRONT END GUI
+LABEL 			FrontEndGui
+CONTEXT ROOT 		/probetimout
+JNDI PREFIX		defaultWebGuiPrefix
+STATEFUL		yes
+SECURE			no
+NUMBER SESSION MAX 	1
+REQUEST SECOND MAX	20
+
+EAR BACKEND  :
+LABEL			back-end
+GROUP ID		com.francetelecom.clara.cloud
+ARTIFACT ID 		paas-probe-timeout-ear
+VERSION			1.019-SNAPSHOT
+MINIMUM MEMORY 	128
+
+BACK END GUI
+LABEL 			backEndGui
+CONTEXT ROOT 		/probeconfig
+JNDI PREFIX		defaultWebGuiPrefix
+STATEFUL		no
+SECURE			no
+NUMBER SESSION MAX 	1
+REQUEST SECOND MAX	20
+
+WHOLE APP CONFIG : (associ�  au front end et au back end)
+LABEL 			WholeAppConfig
+JNDI PREFIX		config
+CONTENT		# for the launch of the Orange Open commercial offer, turn this option on, for the app enable corresponding features enable-palier-for-open-launch=false
+			#By default, DB schema upgrades are handled through our liqui-base setup see http://www.liquibase.org/ and not automatically hibernate-auto-db-schema-			upgrades=false
+
+BACK END CONFIG:
+LABEL 			BackEndConfig
+JNDI PREFIX		config
+CONTENT		#Configureable period in seconds after which the audit DB tables are purged. Typically increase in QA environments to perform white box testing on the content 			of these tables.purge_database_audit_tables_period=20
+
+FRONT END CONFIG
+LABEL 			FrontEndConfig
+JNDI PREFIX		config
+CONTENT		#Defines the email contact that appears in the UI for asking help. Should be overriden per environment support-email-contact=undefined@orange.com
+			#Ability to turn off the UI to rejects HTTP requests without the SSO gassi header. Use only on dev environments as a convenient for local 			testing reject_unauthenticated_gassi_logins=true

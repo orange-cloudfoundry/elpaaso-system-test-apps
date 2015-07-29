@@ -121,7 +121,6 @@
                 <artifactId>jaxp-api</artifactId>
                 <version>${jaxp.api.version}</version>
             </dependency>
-
         </dependencies>
 	</dependencyManagement>
 </project>

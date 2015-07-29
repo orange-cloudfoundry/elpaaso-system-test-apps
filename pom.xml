@@ -20,7 +20,7 @@
     <parent>
         <groupId>com.orange.clara.cloud</groupId>
         <artifactId>cloud-plugins-management</artifactId>
-        <version>2.0.0-SNAPSHOT</version>
+        <version>3.0.0-SNAPSHOT</version>
     </parent>
 
     <groupId>com.orange.clara.cloud.probes</groupId>
@@ -32,7 +32,8 @@
 
     <scm>
         <connection>scm:git:https://github.com/Orange-OpenSource/elpaaso-system-test-apps.git</connection>
-        <developerConnection>scm:git:https://github.com/Orange-OpenSource/elpaaso-system-test-apps.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/Orange-OpenSource/elpaaso-system-test-apps.git
+        </developerConnection>
         <url>https://github.com/Orange-OpenSource/elpaaso-system-test-apps</url>
     </scm>
 
@@ -49,15 +50,14 @@
             <snapshots>
                 <enabled>false</enabled>
             </snapshots>
-            <id>central</id>
-            <name>libs-release</name>
-            <url>http://oss.jfrog.org/artifactory/libs-release</url>
+            <id>jfrog-oss-releases</id>
+            <name>JFrog OSS release repository</name>
+            <url>http://oss.jfrog.org/artifactory/oss-release-local</url>
         </repository>
         <repository>
-            <snapshots />
-            <id>snapshots</id>
-            <name>libs-snapshot</name>
-            <url>http://oss.jfrog.org/artifactory/libs-snapshot</url>
+            <id>jfrog-oss-snapshots</id>
+            <name>JFrog OSS snapshot repository</name>
+            <url>http://oss.jfrog.org/artifactory/oss-snapshot-local</url>
         </repository>
     </repositories>
 
@@ -78,71 +78,89 @@
         <cloudfoundry-connector.version>1.1.0.RELEASE</cloudfoundry-connector.version>
     </properties>
 
- <dependencyManagement>
-     <dependencies>
-         <dependency>
-             <groupId>org.springframework.boot</groupId>
-             <artifactId>spring-boot-starter-web</artifactId>
-             <version>${spring.boot.version}</version>
-         </dependency>
-         <dependency>
-             <groupId>org.springframework.boot</groupId>
-             <artifactId>spring-boot-starter-actuator</artifactId>
-             <version>${spring.boot.version}</version>
-         </dependency>
-         <dependency>
-             <groupId>org.springframework.boot</groupId>
-             <artifactId>spring-boot-starter-cloud-connectors</artifactId>
-             <version>${spring.boot.version}</version>
-         </dependency>
-         <dependency>
-             <groupId>org.springframework.boot</groupId>
-             <artifactId>spring-boot-starter</artifactId>
-             <version>${spring.boot.version}</version>
-         </dependency>
-         <dependency>
-             <groupId>org.springframework.boot</groupId>
-             <artifactId>spring-boot-starter-test</artifactId>
-             <version>${spring.boot.version}</version>
-             <scope>test</scope>
-         </dependency>
-         <dependency>
-             <groupId>org.springframework.boot</groupId>
-             <artifactId>spring-boot-starter-amqp</artifactId>
-             <version>${spring.boot.version}</version>
-         </dependency>
-         <dependency>
-             <groupId>org.springframework.boot</groupId>
-             <artifactId>spring-boot-starter-integration</artifactId>
-             <version>${spring.boot.version}</version>
-         </dependency>
-         <dependency>
-             <groupId>org.springframework.boot</groupId>
-             <artifactId>spring-boot-starter-mail</artifactId>
-             <version>${spring.boot.version}</version>
-         </dependency>
-         <dependency>
-             <groupId>org.springframework.boot</groupId>
-             <artifactId>spring-boot-starter-logging</artifactId>
-             <version>${spring.boot.version}</version>
-         </dependency>
-         <dependency>
-             <groupId>org.springframework.cloud</groupId>
-             <artifactId>spring-cloud-cloudfoundry-connector</artifactId>
-             <version>${cloudfoundry-connector.version}</version>
-         </dependency>
-         <dependency>
-             <groupId>org.springframework.cloud</groupId>
-             <artifactId>spring-cloud-spring-service-connector</artifactId>
-             <version>${cloudfoundry-connector.version}</version>
-             <exclusions>
-                 <exclusion>
-                     <groupId>log4j</groupId>
-                     <artifactId>log4j</artifactId>
-                 </exclusion>
-             </exclusions>
-         </dependency>
-     </dependencies>
- </dependencyManagement>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-actuator</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-cloud-connectors</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-test</artifactId>
+                <version>${spring.boot.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-amqp</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-integration</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-mail</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-logging</artifactId>
+                <version>${spring.boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-cloudfoundry-connector</artifactId>
+                <version>${cloudfoundry-connector.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-spring-service-connector</artifactId>
+                <version>${cloudfoundry-connector.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>log4j</groupId>
+                        <artifactId>log4j</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <!-- This config is required to override java version in child module -->
+                    <!-- Especially when springboot is not used-->
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${compiler-plugin.version}</version>
+                    <configuration>
+                        <verbose>true</verbose>
+                        <source>${java.version}</source>
+                        <target>${java.version}</target>
+                        <showWarnings>true</showWarnings>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>

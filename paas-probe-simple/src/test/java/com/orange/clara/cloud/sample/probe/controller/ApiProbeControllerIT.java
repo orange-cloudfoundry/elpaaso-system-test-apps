@@ -176,15 +176,11 @@ public class ApiProbeControllerIT {
 
     @Test
     public void should_expose_info_as_json() {
-        final ResponseEntity<String> response = restTemplate.getForEntity(serverBaseUrl + "/json", String.class);
+        final ResponseEntity<Map> response = restTemplate.getForEntity(serverBaseUrl + "/json", Map.class);
         assertEquals("", HttpStatus.OK, response.getStatusCode());
-
-        String info = response.getBody();
-
+        Map info = response.getBody();
         assertNotNull(info);
-        Map<String, Object> parsedInfo = convertJsonToMap(info);
-
-        assertTrue("Should contain 'build' in" + info, parsedInfo.containsKey("build"));
+        assertTrue("Should contain 'build' in" + info, info.containsKey("build"));
     }
 
     @Test
@@ -214,31 +210,18 @@ public class ApiProbeControllerIT {
         customHeaders.add("sm-universalId", "aa11----");
 
         HttpEntity<String> entity = new HttpEntity<>("parameters", customHeaders);
-        ResponseEntity<String> response = restTemplate.exchange(serverBaseUrl + "/headers",
+        ResponseEntity<Map> response = restTemplate.exchange(serverBaseUrl + "/headers",
                 HttpMethod.GET,
                 entity,
-                String.class);
+                Map.class);
 
         assertEquals("Http 200 expected while requesting /headers", HttpStatus.OK, response.getStatusCode());
-        String requestHeadersAsReponse = response.getBody();
 
-        Map<String, Object> requestHeaders = convertJsonToMap(requestHeadersAsReponse);
+        Map requestHeaders = response.getBody();
         assertEquals(MediaType.ALL_VALUE, requestHeaders.get("accept"));
         assertEquals("aa11____", requestHeaders.get("sm_universalid"));
         assertEquals("aa11----", requestHeaders.get("sm-universalid"));
     }
 
-
-    public Map<String, Object> convertJsonToMap(String json) {
-        Map<String, Object> retMap = new HashMap<>();
-        if (json != null) {
-            try {
-                retMap = mapper.readValue(json, new TypeReference<Map<String, Object>>() {});
-            } catch (IOException e) {
-                throw  new RuntimeException("Error while reading Java Map from JSON response: " + json, e);
-            }
-        }
-        return retMap;
-    }
 
 }

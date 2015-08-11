@@ -17,10 +17,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wooj7232 on 09/01/2015.
@@ -81,5 +82,11 @@ public class ApiProbeController {
     @RequestMapping(value = "/build/projectVersion", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
     public String getBuildInfoProjectVersion() {
         return info.getBuild().getProjectVersion();
+    }
+
+
+    @RequestMapping(value="/headers", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String,String> getRequestHeader(@RequestHeader MultiValueMap<String,String> headers){
+        return headers.toSingleValueMap();
     }
 }

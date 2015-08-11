@@ -12,10 +12,14 @@
  */
 package com.orange.clara.cloud.sample.probe.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.orange.clara.cloud.sample.probe.Application;
 import com.orange.clara.cloud.sample.probe.domain.AppInfo;
 import com.orange.clara.cloud.sample.probe.domain.BuildInfo;
 import com.orange.clara.cloud.sample.probe.domain.SystemInfo;
+import jdk.nashorn.internal.parser.JSONParser;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,16 +29,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.boot.test.WebIntegrationTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -51,10 +52,12 @@ public class ApiProbeControllerIT {
 
     RestTemplate restTemplate = new TestRestTemplate();
     private String serverBaseUrl;
+    private ObjectMapper mapper;
 
     @Before
     public void setup() {
         this.serverBaseUrl = SERVER_URL + ":" + port;
+        mapper = new ObjectMapper();
     }
 
     @Test
@@ -179,8 +182,44 @@ public class ApiProbeControllerIT {
         String info = response.getBody();
 
         assertNotNull(info);
-        assertTrue("Content should be in json: " + info, info.contains("{\"build\":{\""));
+        Map<String, Object> parsedInfo = convertJsonToMap(info);
+
+        assertTrue("Should contain 'build' in" + info, parsedInfo.containsKey("build"));
     }
 
+    @Test
+    public void should_expose_request_headers() {
+        HttpHeaders customHeaders = new HttpHeaders();
+        customHeaders.setAccept(Collections.singletonList(MediaType.ALL));
+        customHeaders.add("sm_universalId", "aa11____");
+        customHeaders.add("sm-universalId", "aa11----");
+
+        HttpEntity<String> entity = new HttpEntity<>("parameters", customHeaders);
+        ResponseEntity<String> response = restTemplate.exchange(serverBaseUrl + "/headers",
+                HttpMethod.GET,
+                entity,
+                String.class);
+
+        assertEquals("Http 200 expected while requesting /headers", HttpStatus.OK, response.getStatusCode());
+        String requestHeadersAsReponse = response.getBody();
+
+        Map<String, Object> requestHeaders = convertJsonToMap(requestHeadersAsReponse);
+        assertEquals(MediaType.ALL_VALUE, requestHeaders.get("accept"));
+        assertEquals("aa11____", requestHeaders.get("sm_universalid"));
+        assertEquals("aa11----", requestHeaders.get("sm-universalid"));
+    }
+
+
+    public Map<String, Object> convertJsonToMap(String json) {
+        Map<String, Object> retMap = new HashMap<>();
+        if (json != null) {
+            try {
+                retMap = mapper.readValue(json, new TypeReference<Map<String, Object>>() {});
+            } catch (IOException e) {
+                throw  new RuntimeException("Error while reading Java Map from JSON response: " + json, e);
+            }
+        }
+        return retMap;
+    }
 
 }

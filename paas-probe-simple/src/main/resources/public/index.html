@@ -12,7 +12,8 @@
     limitations under the License.
 
 -->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
 <head><title>JEE Probe Web application : properties</title>
 </head>
@@ -50,10 +51,18 @@
         <td>System Info</td>
         <td>
             <ul>
-                <li>Get <a href="/system"/>/system</a></li>
-                <li>Get <a href="/system/java"/>/system/java</a></li>
-                <li>Get <a href="/system/packages"/>/system/packages</a></li>
-                <li>Get <a href="/system/os"/>/system/os</a></li>
+                <li>Get <a href="/system">/system</a></li>
+                <li>Get <a href="/system/java">/system/java</a></li>
+                <li>Get <a href="/system/packages">/system/packages</a></li>
+                <li>Get <a href="/system/os">/system/os</a></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>Request headers</td>
+        <td>
+            <ul>
+                <li>Get <a href="/headers">/headers</a></li>
             </ul>
         </td>
     </tr>
@@ -111,12 +120,18 @@
 <form action="/network" method="GET">
     <table>
         <tr>
-            <td>TargetIp:</td>
-            <td><input type="text" name="targetIp"></td>
+            <td>
+                <label>TargetIp:
+                    <input type="text" name="targetIp">
+                </label>
+            </td>
         </tr>
         <tr>
-            <td>targetUrl:</td>
-            <td><input type="text" name="targetUrl"></td>
+            <td>
+                <label>targetUrl:
+                    <input type="text" name="targetUrl">
+                </label>
+            </td>
         </tr>
         <tr>
             <td><input type="submit" value="Submit">

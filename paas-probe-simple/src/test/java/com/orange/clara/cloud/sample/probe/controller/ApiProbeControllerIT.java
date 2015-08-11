@@ -188,6 +188,25 @@ public class ApiProbeControllerIT {
     }
 
     @Test
+    public void should_retrieve_a_specific_request_header() {
+        HttpHeaders customHeaders = new HttpHeaders();
+        customHeaders.setAccept(Collections.singletonList(MediaType.ALL));
+        customHeaders.add("sm_universalId", "aa11____");
+        customHeaders.add("sm-universalId", "aa11----");
+
+        HttpEntity<String> entity = new HttpEntity<>("parameters", customHeaders);
+        ResponseEntity<String> response = restTemplate.exchange(serverBaseUrl + "/headers/sm_universalId".toLowerCase(),
+                HttpMethod.GET,
+                entity,
+                String.class);
+
+        assertEquals("Http 200 expected while requesting /headers", HttpStatus.OK, response.getStatusCode());
+        String requestHeadersValue = response.getBody();
+
+        assertEquals("Request header value should match", "aa11____",requestHeadersValue);
+    }
+
+    @Test
     public void should_expose_request_headers() {
         HttpHeaders customHeaders = new HttpHeaders();
         customHeaders.setAccept(Collections.singletonList(MediaType.ALL));

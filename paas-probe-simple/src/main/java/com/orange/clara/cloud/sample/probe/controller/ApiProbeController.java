@@ -20,7 +20,6 @@ import org.springframework.http.MediaType;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -86,7 +85,13 @@ public class ApiProbeController {
 
 
     @RequestMapping(value="/headers", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
-    public Map<String,String> getRequestHeader(@RequestHeader MultiValueMap<String,String> headers){
+     public Map<String,String> getRequestHeader(@RequestHeader MultiValueMap<String,String> headers){
         return headers.toSingleValueMap();
     }
+
+    @RequestMapping(value = "/headers/{headerKey:.+}", method = RequestMethod.GET, produces = {MediaType.APPLICATION_JSON_VALUE})
+    public String getFirstHeader(@PathVariable("headerKey") String headerKey,@RequestHeader MultiValueMap<String,String> headers) {
+        return headers.getFirst(headerKey);
+    }
+
 }

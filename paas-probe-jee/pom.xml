@@ -43,7 +43,7 @@
         <jaxp.api.version>1.4.2</jaxp.api.version>
 
 		<!-- Test version -->
-		<junit.version>4.11</junit.version>
+		<junit.version>4.13.1</junit.version>
 		<spring.mock.version>2.0.8</spring.mock.version>
 		<mockito.version>1.9.5</mockito.version>
 	</properties>

@@ -38,7 +38,7 @@
 		<servlet.api.version>2.5</servlet.api.version>
 
 		<slf4j.version>1.7.7</slf4j.version>
-		<logback.version>1.1.2</logback.version>
+		<logback.version>1.2.0</logback.version>
 		<spring.version>4.1.1.RELEASE</spring.version>
         <jaxp.api.version>1.4.2</jaxp.api.version>
 
